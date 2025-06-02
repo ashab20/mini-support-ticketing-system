@@ -1,0 +1,21 @@
+{
+    "name": "ashab/ticketing-system",
+    "description": "Simple Task from SKIFF Technologies",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+    "psr-4": {
+        "App\\Config\\": "config/",
+        "App\\Controller\\": "controller/",
+        "App\\Model\\": "model/",
+        "App\\Route\\": "route/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ashab20",
+            "email": "ashabuddin20@hotmail.com"
+        }
+    ],
+    "require": {}
+}
