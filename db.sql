@@ -1,39 +1,61 @@
+
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name TEXT,
-    email VARCHAR(30) UNIQUE INDEX,
-    password_hash VARCHAR(255),
-    role ENUM('Admin', 'User') DEFAULT 'User'
-);
-
-CREATE TABLE departments (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30)
-);
-
-CREATE TABLE tickets (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(100),
-    description TEXT,
-    status ENUM('open', 'closed', 'in_progress') DEFAULT 'open',
-    user_id INTEGER,
-    department_id INTEGER,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password_hash CHAR(255) NOT NULL,
+    role ENUM('Admin', 'Agent','User') NOT NULL DEFAULT 'User',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    created_by INTEGER,
-    updated_by INTEGER,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (department_id) REFERENCES departments(id),
-    FOREIGN KEY (created_by) REFERENCES users(id),
-    FOREIGN KEY (updated_by) REFERENCES users(id)
+    UNIQUE INDEX email_unique (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS tokens;
+CREATE TABLE tokens (
+    token VARCHAR(64) PRIMARY KEY,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+
+
+DROP TABLE IF EXISTS departments;
+CREATE TABLE departments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX dept_name_unique (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS tickets;
+CREATE TABLE tickets (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    attachment VARCHAR(255) DEFAULT NULL,
+    description TEXT NOT NULL,
+    status ENUM('open', 'in_progress', 'closed') NOT NULL DEFAULT 'open',
+    user_id INT UNSIGNED NOT NULL,
+    assigned_by INT UNSIGNED DEFAULT NULL,
+    department_id INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX status_index (status),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (assigned_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS ticket_notes;
 CREATE TABLE ticket_notes (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    ticket_id INTEGER,
-    user_id INTEGER,
-    note TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    FOREIGN KEY (ticket_id) REFERENCES tickets(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ticket_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    note TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+

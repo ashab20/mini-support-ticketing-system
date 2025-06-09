@@ -8,4 +8,4 @@
 // github: https://github.com/ashab20/ticketing-system
 
 require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/route/api.php';
+require_once __DIR__ . '/routes/api.php';

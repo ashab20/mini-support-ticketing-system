@@ -40,7 +40,7 @@ class Database
 // connection
 try {
     $conn = Database::getInstance();
-    echo "Connected successfully";
+    // echo "Connected successfully";
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
