@@ -296,23 +296,23 @@
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
 									"key": "name",
-									"value": "developments",
+									"value": "Accounting",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{local}}/departments/2",
+							"raw": "{{local}}/departments/3",
 							"host": [
 								"{{local}}"
 							],
 							"path": [
 								"departments",
-								"2"
+								"3"
 							]
 						},
 						"description": "Gets information about the authenticated user."
@@ -347,7 +347,7 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "ashab@gmail.com",
+									"value": "ashab12@gmail.com",
 									"type": "text"
 								},
 								{
@@ -364,6 +364,50 @@
 							],
 							"path": [
 								"login"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{bg_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{local}}/logout",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"logout"
 							]
 						},
 						"description": "Gets information about the authenticated user."
@@ -397,7 +441,7 @@
 								},
 								{
 									"key": "email",
-									"value": "ashab@gmail.com",
+									"value": "ashab12@gmail.com",
 									"type": "text"
 								},
 								{
@@ -509,13 +553,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{local}}/tickets/1/status",
+							"raw": "{{local}}/tickets/2/status",
 							"host": [
 								"{{local}}"
 							],
 							"path": [
 								"tickets",
-								"1",
+								"2",
 								"status"
 							]
 						}
@@ -548,13 +592,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{local}}/tickets/2/assign",
+							"raw": "{{local}}/tickets/3/assign",
 							"host": [
 								"{{local}}"
 							],
 							"path": [
 								"tickets",
-								"2",
+								"3",
 								"assign"
 							]
 						}
@@ -619,8 +663,44 @@
 				{
 					"name": "Add Note",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer {{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "note",
+									"value": "Ticket Notes",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/tickets/2/notes",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"tickets",
+								"2",
+								"notes"
+							]
+						}
 					},
 					"response": []
 				}
